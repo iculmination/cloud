@@ -1,7 +1,9 @@
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-3xl">Cloud - The only storage solution you need.</h1>
+    <div className="center bg-amber-100 ">
+      <h1 className="h1">
+        Cloud - The only storage solution you need.
+      </h1>
     </div>
   );
 }
