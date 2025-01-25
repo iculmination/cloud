@@ -2,10 +2,11 @@ import Image from "next/image";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen select-none">
       <section className="bg-brand p-10 hidden w-1/2 items-center justify-center lg:flex xl:w-2/5">
         <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
           <Image
+            draggable={false}
             src="/assets/icons/logo-full.svg"
             alt="logo"
             width={224}
@@ -15,16 +16,17 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="space-y-5 text-white">
             <h1 className="h1">Manage your files the best way</h1>
             <p className="body-1">
-              This is a place where you can store all your documents .
+              This is a place where you can store all your documents.
             </p>
           </div>
 
           <Image
+            draggable={false}
             src="/assets/icons/illustration.svg"
             alt="files"
             width={342}
             height={342}
-            className="transition-all hover:rotate-2 hover:scale-105"
+            className="transition-all hover:rotate-2 hover:scale-105 "
           />
         </div>
       </section>

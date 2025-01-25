@@ -78,7 +78,7 @@ export const verifySecret = async ({
   try {
     const { account } = await createAdminClient();
 
-    const { session } = await account.createSession(accountId, password);
+    const session = await account.createSession(accountId, password);
 
     (await cookies()).set("appwrite-session", session.secret, {
       path: "/",
