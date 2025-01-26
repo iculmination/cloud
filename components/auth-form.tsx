@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-import { createAccount } from "@/lib/actions/user.actions";
+import { createAccount, signInUser } from "@/lib/actions/user.actions";
 import OTPModal from "./otp-modal";
 
 type FormType = "sign-in" | "sign-up";
@@ -47,18 +47,20 @@ const AuthForm = ({ type }: { type: FormType }) => {
     },
   });
 
-  console.log(type);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const user = await createAccount({
-        fullName: values.fullName || "",
-        email: values.email,
-      });
+      const user =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: values.fullName || "",
+              email: values.email,
+            })
+          : await signInUser(values.email);
 
+      console.log(user);
       setAccountId(user.accountId);
     } catch {
       setErrorMessage("Failed to create an account. Please try again.");
