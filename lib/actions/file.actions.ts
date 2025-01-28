@@ -184,7 +184,7 @@ export const deleteFile = async ({
       fileId
     );
 
-    if (deleteFile) {
+    if (deletedFile) {
       await storage.deleteFile(appwriteConfig.bucketId, bucketFileId);
     }
 
@@ -193,5 +193,60 @@ export const deleteFile = async ({
     return parseStringify({ status: "success" });
   } catch (error) {
     handleError(error, "Failed to raname file");
+  }
+};
+
+export const getTotalUsedSpace = async () => {
+  const { databases } = await createAdminClient();
+
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      throw new Error("User now found");
+    }
+
+    const files = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId
+    );
+
+    const totalSpaceUsed: StorageUsage = {
+      image: { size: 0, latestDate: "" },
+      document: { size: 0, latestDate: "" },
+      video: { size: 0, latestDate: "" },
+      audio: { size: 0, latestDate: "" },
+      media: { size: 0, latestDate: "" },
+      other: { size: 0, latestDate: "" },
+      used: 0,
+      all: 2 * 1024 * 1024 * 1024, //2gb
+    };
+
+    files.documents.forEach((file) => {
+      const fileType = file.type as FileType;
+      totalSpaceUsed[fileType].size += file.size;
+      totalSpaceUsed.used += file.size;
+
+      if (
+        !totalSpaceUsed[fileType].latestDate ||
+        new Date(totalSpaceUsed[fileType].latestDate) <
+          new Date(file.$updatedAt)
+      ) {
+        totalSpaceUsed[fileType].latestDate = file.$updatedAt;
+      }
+
+      totalSpaceUsed.media.size =
+        totalSpaceUsed.audio.size + totalSpaceUsed.video.size;
+
+      totalSpaceUsed.media.latestDate =
+        new Date(totalSpaceUsed.audio.latestDate) <
+        new Date(totalSpaceUsed.video.latestDate)
+          ? totalSpaceUsed.video.latestDate
+          : totalSpaceUsed.audio.latestDate;
+    });
+
+    return totalSpaceUsed;
+  } catch (error) {
+    handleError(error, "Could not calculate total used space");
   }
 };

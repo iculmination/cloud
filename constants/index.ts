@@ -26,6 +26,29 @@ export const navItems = [
   },
 ];
 
+export const dashboardItems = [
+  {
+    name: "Documents",
+    icon: "/assets/icons/file-document-light.svg",
+    category: "document",
+  },
+  {
+    name: "Images",
+    icon: "/assets/icons/file-image-light.svg",
+    category: "image",
+  },
+  {
+    name: "Video, Audio",
+    icon: "/assets/icons/file-video-light.svg",
+    category: "media",
+  },
+  {
+    name: "Documents",
+    icon: "/assets/icons/file-other-light.svg",
+    category: "other",
+  },
+];
+
 export const actionsDropdownItems = [
   {
     label: "Rename",

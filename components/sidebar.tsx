@@ -31,7 +31,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
           alt="logo"
           width={52}
           height={52}
-          className="lg-hidden"
+          className="lg:hidden"
         />
       </Link>
 
