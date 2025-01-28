@@ -2,12 +2,13 @@ import Image from "next/image";
 import { Separator } from "./ui/separator";
 import FormattedDateTime from "./formatted-date-time";
 import { convertFileSize } from "@/lib/utils";
+import Link from "next/link";
 
 interface CategoryCardProps {
   category: string;
   icon: string;
   name: string;
-  totalUsedSpace: any;
+  totalUsedSpace: StorageUsage;
 }
 
 const CategoryCard = async ({
@@ -17,7 +18,10 @@ const CategoryCard = async ({
   totalUsedSpace,
 }: CategoryCardProps) => {
   return (
-    <div className="bg-white w-full h-full relative rounded-3xl pb-10">
+    <Link
+      href={`/${category}${category === "media" ? "" : "s"}`}
+      className="bg-white w-full h-full relative rounded-3xl pb-10 transition-all hover:scale-105"
+    >
       <div className="flex flex-col items-center justify-center">
         <Image
           src={icon}
@@ -39,7 +43,7 @@ const CategoryCard = async ({
           <FormattedDateTime date={totalUsedSpace[category].latestDate} />
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
